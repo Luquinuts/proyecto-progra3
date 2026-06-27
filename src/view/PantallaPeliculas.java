@@ -83,7 +83,7 @@ public class PantallaPeliculas extends javax.swing.JPanel implements IPantallaBa
                     .addComponent(lblFuncion)
                     .addComponent(lblDetalle))
                 .addGap(15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, 350)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(comboPelicula)
                     .addComponent(comboFuncion)
                     .addComponent(lblDetalleValor))

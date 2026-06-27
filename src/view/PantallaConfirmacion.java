@@ -49,7 +49,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
             .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(150)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, 400)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblCliente)
                     .addComponent(lblPelicula)
                     .addComponent(lblFuncion)

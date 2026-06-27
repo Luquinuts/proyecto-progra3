@@ -60,7 +60,7 @@ public class PantallaCliente extends javax.swing.JPanel implements IPantallaBase
                     .addComponent(lblEmail)
                     .addComponent(lblTelefono))
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, 250)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNombre)
                     .addComponent(txtApellido)
                     .addComponent(txtEmail)
