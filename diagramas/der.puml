@@ -1,0 +1,79 @@
+@startuml
+' DER - Diagrama Entidad-Relacion
+' Sistema de Compra de Boletos de Cine
+' Render en https://www.plantuml.com/ o con PlantUML local
+' Integrantes: Galende Ramiro, Palavecino Lucas
+
+hide circle
+skinparam linetype ortho
+
+entity "peliculas" as peliculas {
+  id_pelicula: INT <<PK>>
+  --
+  titulo: VARCHAR(100)
+  genero: VARCHAR(50)
+  duracion: INT
+  clasificacion: VARCHAR(10)
+}
+
+entity "salas" as salas {
+  id_sala: INT <<PK>>
+  --
+  nombre: VARCHAR(30)
+  capacidad: INT
+}
+
+entity "butacas" as butacas {
+  id_butaca: INT <<PK>>
+  --
+  id_sala: INT <<FK>>
+  fila: CHAR(1)
+  numero: INT
+}
+
+entity "funciones" as funciones {
+  id_funcion: INT <<PK>>
+  --
+  id_pelicula: INT <<FK>>
+  id_sala: INT <<FK>>
+  fecha: DATE
+  hora: TIME
+  precio: DECIMAL(8,2)
+}
+
+entity "clientes" as clientes {
+  id_cliente: INT <<PK>>
+  --
+  nombre: VARCHAR(50)
+  apellido: VARCHAR(50)
+  email: VARCHAR(100)
+  telefono: VARCHAR(20)
+}
+
+entity "reservas" as reservas {
+  id_reserva: INT <<PK>>
+  --
+  id_cliente: INT <<FK>>
+  fecha_reserva: DATE
+}
+
+entity "detalle_reserva" as detalle {
+  id_detalle: INT <<PK>>
+  --
+  id_reserva: INT <<FK>>
+  id_funcion: INT <<FK>>
+  id_butaca: INT <<FK>>
+  __
+  UNIQUE(id_funcion, id_butaca)
+}
+
+' Relaciones
+salas ||--o{ butacas : "1 a N"
+peliculas ||--o{ funciones : "1 a N"
+salas ||--o{ funciones : "1 a N"
+clientes ||--o{ reservas : "1 a N"
+reservas ||--o{ detalle : "1 a N"
+funciones ||--o{ detalle : "1 a N"
+butacas ||--o{ detalle : "1 a N"
+
+@enduml

@@ -1,0 +1,72 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Tech stack: Java (Netbeans GUI Builder), MySQL 8+, JDBC puro (com.mysql.cj.jdbc.Driver)
+  Architecture: Desktop Swing app con CardLayout (VentanaPrincipal + JPanels), 
+    paquetes view/ database/ model/ thread, DAOs con ArrayList<>, 
+    Conexion JDBC estilo DriverManager, nombres en español.
+  Testing: No hay test runner — es una app Swing GUI sin tests automatizados.
+    Strict TDD deshabilitado (no hay framework de tests disponible).
+  Style: Codigo compatible con Netbeans GUI Builder (initComponents autogenerado),
+    nombres en español, POO con encapsulamiento, interfases, herencia de Thread,
+    concurrencia con synchronized para condicion de carrera en butacas.
+  DB: 7 tablas (peliculas, salas, butacas, funciones, clientes, reservas, detalle_reserva),
+    UNIQUE(id_funcion, id_butaca) para evitar duplicados.
+  Team: Galende Ramiro, Palavecino Lucas. Materia: Programacion 3.
+  Integrantes: Galende Ramiro, Palavecino Lucas.
+  Project root: C:\Users\lucas\Downloads\ProyectoProgra3-Clone
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Max 1 page de texto, lenguaje español
+  specs:
+    - Usar Given/When/Then para escenarios
+    - Usar MUST/SHOULD/MAY (RFC 2119 keywords)
+    - Especificar pantallas Swing afectadas
+    - Especificar cambios en DB (SQL) si aplica
+  design:
+    - Incluir referencias a pantallas Swing y flujo CardLayout
+    - Documentar cambios en DAOs y modelos
+    - Incluir comportamiento de hilos si hay concurrencia
+    - Arquitectura de paquetes: view, database, model, thread
+  tasks:
+    - Agrupar por fase, usar numeracion jerarquica
+    - Tasks completables en una sesion
+    - Separar UI (Netbeans disenador) de logica (codigo manual)
+  apply:
+    - Seguir codigo compatible con Netbeans (formato GEN-BEGIN/GEN-END)
+    - NO usar JPA/Hibernate — solo JDBC puro
+    - NO crear nuevos JFrame — usar JPanel + CardLayout
+    - mantener nombres en español consistente
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: "javac -d build src/**/*.java"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas
+
+testing:
+  strict_tdd: false
+  detected: 2026-06-27
+  runner:
+    command: ""
+    framework: ""
+  layers:
+    unit: { available: false, tool: "" }
+    integration: { available: false, tool: "" }
+    e2e: { available: false, tool: "" }
+  coverage:
+    available: false
+    command: ""
+  quality:
+    linter: { available: false, command: "" }
+    type_checker: { available: false, command: "" }
+    formatter: { available: false, command: "" }
+  notes: |
+    Proyecto universitario Swing sin tests automatizados. 
+    La verificacion es manual (compilar + ejecutar + probar pantallas).
+    No hay herramientas de calidad de codigo configuradas en el proyecto.

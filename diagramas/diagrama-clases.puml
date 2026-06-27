@@ -1,0 +1,254 @@
+@startuml
+' Diagrama de Clases
+' Sistema de Compra de Boletos de Cine
+' Render en https://www.plantuml.com/ o con PlantUML local
+' Integrantes: Galende Ramiro, Palavecino Lucas
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package model {
+  class Pelicula {
+    - idPelicula: int
+    - titulo: String
+    - genero: String
+    - duracion: int
+    - clasificacion: String
+    + Pelicula()
+    + Pelicula(int, String, String, int, String)
+    + getters/setters()
+    + toString(): String
+  }
+
+  class Sala {
+    - idSala: int
+    - nombre: String
+    - capacidad: int
+    + Sala()
+    + Sala(int, String, int)
+    + getters/setters()
+    + toString(): String
+  }
+
+  class Butaca {
+    - idButaca: int
+    - idSala: int
+    - fila: String
+    - numero: int
+    + Butaca()
+    + Butaca(int, int, String, int)
+    + getters/setters()
+    + toString(): String
+  }
+
+  class Funcion {
+    - idFuncion: int
+    - idPelicula: int
+    - idSala: int
+    - fecha: String
+    - hora: String
+    - precio: double
+    + Funcion()
+    + Funcion(int, int, int, String, String, double)
+    + getters/setters()
+    + toString(): String
+  }
+
+  class Cliente {
+    - idCliente: int
+    - nombre: String
+    - apellido: String
+    - email: String
+    - telefono: String
+    + Cliente()
+    + Cliente(int, String, String, String, String)
+    + getters/setters()
+    + toString(): String
+  }
+
+  class Reserva {
+    - idReserva: int
+    - idCliente: int
+    - fechaReserva: String
+    + Reserva()
+    + Reserva(int, int, String)
+    + getters/setters()
+    + toString(): String
+  }
+}
+
+package database {
+  class Conexion {
+    - conn: Connection
+    - server: String
+    - database: String
+    - user: String
+    - pass: String
+    - url: String
+    + Conexion()
+    + getConnection(): Connection
+    + closeConnection(): void
+    + query(String): ResultSet
+    + insert(String): int
+    + update(String): int
+    + delete(String): int
+  }
+
+  class PeliculaDAO {
+    + obtenerTodas(): ArrayList<Pelicula>
+    + obtenerPorId(int): Pelicula
+    + insertar(Pelicula): void
+    + actualizar(Pelicula): void
+    + eliminar(int): void
+  }
+
+  class SalaDAO {
+    + obtenerTodas(): ArrayList<Sala>
+    + obtenerPorId(int): Sala
+    + insertar(Sala): void
+    + actualizar(Sala): void
+    + eliminar(int): void
+  }
+
+  class ButacaDAO {
+    + obtenerTodas(): ArrayList<Butaca>
+    + obtenerPorId(int): Butaca
+    + obtenerPorSala(int): ArrayList<Butaca>
+    + obtenerDisponiblesPorFuncion(int): ArrayList<Butaca>
+    + insertar(Butaca): void
+    + eliminar(int): void
+  }
+
+  class FuncionDAO {
+    + obtenerTodas(): ArrayList<Funcion>
+    + obtenerPorId(int): Funcion
+    + obtenerPorPelicula(int): ArrayList<Funcion>
+    + insertar(Funcion): void
+    + actualizar(Funcion): void
+    + eliminar(int): void
+  }
+
+  class ClienteDAO {
+    + obtenerTodos(): ArrayList<Cliente>
+    + obtenerPorId(int): Cliente
+    + insertar(Cliente): void
+    + actualizar(Cliente): void
+    + eliminar(int): void
+  }
+
+  class ReservaDAO {
+    + obtenerTodas(): ArrayList<Reserva>
+    + obtenerPorId(int): Reserva
+    + reservarButacas(Cliente, Funcion, List<Integer>): boolean
+    + obtenerDetallePorFuncion(int): ArrayList<Integer>
+    + obtenerUltimaReserva(): Reserva
+  }
+}
+
+package view {
+  interface IPantallaBase {
+    + onShow(): void
+  }
+
+  class VentanaPrincipal {
+    - contenedor: JPanel
+    - clienteActual: Cliente
+    - funcionActual: Funcion
+    - butacasSeleccionadas: List<Integer>
+    + VentanaPrincipal()
+    + mostrarPantalla(String): void
+    + getters/setters shared state()
+  }
+
+  class PantallaMenu {
+    + PantallaMenu(VentanaPrincipal)
+    + onShow(): void
+  }
+
+  class PantallaCliente {
+    + PantallaCliente(VentanaPrincipal)
+    + onShow(): void
+  }
+
+  class PantallaPeliculas {
+    + PantallaPeliculas(VentanaPrincipal)
+    + onShow(): void
+  }
+
+  class PantallaButacas {
+    + PantallaButacas(VentanaPrincipal)
+    + onShow(): void
+  }
+
+  class PantallaConfirmacion {
+    + PantallaConfirmacion(VentanaPrincipal)
+    + onShow(): void
+  }
+
+  class CineApp {
+    + main(String[]): void
+  }
+}
+
+package thread {
+  class ReservaButacaThread {
+    - cliente: Cliente
+    - funcion: Funcion
+    - idsButacas: List<Integer>
+    - exito: boolean
+    - mensaje: String
+    + ReservaButacaThread(Cliente, Funcion, List<Integer>)
+    + isExito(): boolean
+    + getMensaje(): String
+    + run(): void
+  }
+}
+
+' Relaciones de herencia e implementacion
+ReservaButacaThread --|> Thread : extends
+PantallaMenu ..|> IPantallaBase : implements
+PantallaCliente ..|> IPantallaBase : implements
+PantallaPeliculas ..|> IPantallaBase : implements
+PantallaButacas ..|> IPantallaBase : implements
+PantallaConfirmacion ..|> IPantallaBase : implements
+
+' Dependencias de VentanaPrincipal
+VentanaPrincipal *-- PantallaMenu : contiene
+VentanaPrincipal *-- PantallaCliente : contiene
+VentanaPrincipal *-- PantallaPeliculas : contiene
+VentanaPrincipal *-- PantallaButacas : contiene
+VentanaPrincipal *-- PantallaConfirmacion : contiene
+VentanaPrincipal o-- Cliente : estado
+VentanaPrincipal o-- Funcion : estado
+
+' Uso de DAOs (dependencias)
+PeliculaDAO ..> Pelicula : usa
+SalaDAO ..> Sala : usa
+ButacaDAO ..> Butaca : usa
+FuncionDAO ..> Funcion : usa
+ClienteDAO ..> Cliente : usa
+ReservaDAO ..> Reserva : usa
+
+' Dependencias desde DAOs a Conexion
+PeliculaDAO ..> Conexion : usa
+SalaDAO ..> Conexion : usa
+ButacaDAO ..> Conexion : usa
+FuncionDAO ..> Conexion : usa
+ClienteDAO ..> Conexion : usa
+ReservaDAO ..> Conexion : usa
+
+' Dependencias de pantallas a DAOs
+PantallaCliente ..> ClienteDAO : usa
+PantallaPeliculas ..> PeliculaDAO : usa
+PantallaPeliculas ..> FuncionDAO : usa
+PantallaButacas ..> ButacaDAO : usa
+PantallaButacas ..> ReservaDAO : usa
+PantallaButacas ..> ReservaButacaThread : lanza
+
+' Dependencias del thread
+ReservaButacaThread ..> ReservaDAO : usa
+
+' Dependencia de CineApp
+CineApp ..> VentanaPrincipal : crea
+
+@enduml
