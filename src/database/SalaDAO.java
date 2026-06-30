@@ -1,5 +1,6 @@
 package database;
 
+import model.ReporteSala;
 import model.Sala;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,6 +44,40 @@ public class SalaDAO {
             db.closeConnection();
         }
         return s;
+    }
+
+    /**
+     * Reporte de recaudacion por sala, ordenado por mayor recaudacion.
+     */
+    public static ArrayList<ReporteSala> obtenerReporte() {
+        ArrayList<ReporteSala> lista = new ArrayList<>();
+        Conexion db = new Conexion();
+        try {
+            String sql = "SELECT s.id_sala, s.nombre, "
+                    + "COUNT(DISTINCT f.id_funcion) AS cantidad_funciones, "
+                    + "COUNT(dr.id_detalle) AS entradas_vendidas, "
+                    + "COALESCE(SUM(f.precio), 0) AS recaudacion_total "
+                    + "FROM salas s "
+                    + "LEFT JOIN funciones f ON f.id_sala = s.id_sala "
+                    + "LEFT JOIN detalle_reserva dr ON dr.id_funcion = f.id_funcion "
+                    + "GROUP BY s.id_sala, s.nombre "
+                    + "ORDER BY recaudacion_total DESC";
+            ResultSet rs = db.query(sql);
+            while (rs.next()) {
+                ReporteSala r = new ReporteSala();
+                r.setIdSala(rs.getInt("id_sala"));
+                r.setNombre(rs.getString("nombre"));
+                r.setCantidadFunciones(rs.getInt("cantidad_funciones"));
+                r.setEntradasVendidas(rs.getInt("entradas_vendidas"));
+                r.setRecaudacionTotal(rs.getDouble("recaudacion_total"));
+                lista.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error obteniendo reporte: " + ex);
+        } finally {
+            db.closeConnection();
+        }
+        return lista;
     }
 
     public static void insertar(Sala s) {

@@ -15,6 +15,7 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
         cmbClientes = new javax.swing.JComboBox<>();
         btnCartelera = new javax.swing.JButton();
         btnRegistrarse = new javax.swing.JButton();
+        btnAdmin = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(240, 240, 240));
@@ -47,6 +48,10 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
         btnRegistrarse.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnRegistrarse.addActionListener(this::btnRegistrarseActionPerformed);
 
+        btnAdmin.setText("Administracion");
+        btnAdmin.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        btnAdmin.addActionListener(this::btnAdminActionPerformed);
+
         btnSalir.setText("Salir");
         btnSalir.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnSalir.addActionListener(this::btnSalirActionPerformed);
@@ -62,6 +67,7 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
                     .addComponent(cmbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCartelera, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(250, 250, 250))
         );
@@ -75,9 +81,11 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
             .addComponent(btnCartelera, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(20)
             .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(20)
+            .addGap(15)
+            .addComponent(btnAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(15)
             .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(100)
+            .addGap(70)
         );
     }
 
@@ -94,6 +102,10 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
         } else {
             ventanaPrincipal.mostrarPantalla("peliculas");
         }
+    }
+
+    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {
+        ventanaPrincipal.mostrarPantalla("admin");
     }
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,5 +140,6 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
     private javax.swing.JComboBox<model.Cliente> cmbClientes;
     private javax.swing.JButton btnCartelera;
     private javax.swing.JButton btnRegistrarse;
+    private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnSalir;
 }

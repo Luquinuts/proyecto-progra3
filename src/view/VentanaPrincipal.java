@@ -19,6 +19,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         contenedor.add(new PantallaPeliculas(this), "peliculas");
         contenedor.add(new PantallaButacas(this), "butacas");
         contenedor.add(new PantallaConfirmacion(this), "confirmacion");
+        contenedor.add(new PantallaAdmin(this), "admin");
+        contenedor.add(new PantallaReporteSala(this), "reporte");
+        contenedor.add(new PantallaAdminButacas(this), "admin-butacas");
         
         mostrarPantalla("menu");
     }
