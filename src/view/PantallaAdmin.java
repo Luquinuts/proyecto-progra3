@@ -14,6 +14,7 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
         lblTitulo = new javax.swing.JLabel();
         btnReporte = new javax.swing.JButton();
         btnMapaButacas = new javax.swing.JButton();
+        btnFunciones = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(240, 240, 240));
@@ -30,6 +31,10 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
         btnMapaButacas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnMapaButacas.addActionListener(this::btnMapaButacasActionPerformed);
 
+        btnFunciones.setText("ABM Funciones");
+        btnFunciones.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        btnFunciones.addActionListener(this::btnFuncionesActionPerformed);
+
         btnVolver.setText("Volver");
         btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnVolver.addActionListener(this::btnVolverActionPerformed);
@@ -44,6 +49,7 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMapaButacas, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(250, 250, 250))
         );
@@ -55,7 +61,9 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
             .addComponent(btnReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(30)
             .addComponent(btnMapaButacas, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(60)
+            .addGap(15)
+            .addComponent(btnFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(40)
             .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(60)
         );
@@ -67,6 +75,10 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
 
     private void btnMapaButacasActionPerformed(java.awt.event.ActionEvent evt) {
         ventanaPrincipal.mostrarPantalla("admin-butacas");
+    }
+
+    private void btnFuncionesActionPerformed(java.awt.event.ActionEvent evt) {
+        ventanaPrincipal.mostrarPantalla("funciones");
     }
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,5 +93,6 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnMapaButacas;
+    private javax.swing.JButton btnFunciones;
     private javax.swing.JButton btnVolver;
 }

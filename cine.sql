@@ -40,8 +40,10 @@ CREATE TABLE funciones (
     fecha DATE,
     hora TIME,
     precio DECIMAL(8,2),
+    activa TINYINT DEFAULT 1,
     FOREIGN KEY (id_pelicula) REFERENCES peliculas(id_pelicula),
-    FOREIGN KEY (id_sala) REFERENCES salas(id_sala)
+    FOREIGN KEY (id_sala) REFERENCES salas(id_sala),
+    CONSTRAINT unique_funcion_sala_horario UNIQUE (id_sala, fecha, hora, activa)
 );
 
 -- Tabla de clientes

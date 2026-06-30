@@ -8,6 +8,7 @@ public class Funcion {
     private String fecha;
     private String hora;
     private double precio;
+    private int activa = 1;
 
     public Funcion() {
     }
@@ -19,6 +20,7 @@ public class Funcion {
         this.fecha = fecha;
         this.hora = hora;
         this.precio = precio;
+        this.activa = 1;
     }
 
     public int getIdFuncion() {
@@ -67,6 +69,18 @@ public class Funcion {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public int getActiva() {
+        return activa;
+    }
+
+    public void setActiva(int activa) {
+        this.activa = activa;
+    }
+
+    public boolean isActiva() {
+        return activa == 1;
     }
 
     @Override
