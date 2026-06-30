@@ -1,0 +1,119 @@
+## 1. Corregir el flujo de reserva y pago
+
+Actualmente, al llegar a la pantalla de confirmación la reserva ya quedó persistida.
+
+Modificar el flujo para que:
+
+* La selección de butacas sea temporal en una estructura de java hasta confirmar el pago.
+* El botón **Cancelar** de la pantalla de confirmación elimine la estructura de java y cancele la operación.
+* Si el usuario cancela:
+  * no debe persistirse ninguna reserva
+  * debe regresar a la pantalla anterior correspondiente.
+* La reserva debe guardarse únicamente cuando el usuario confirme el pago.
+* Revisar si la lógica actual del `ReservaButacaThread` debe dividirse entre:
+  * validación/disponibilidad;
+  * persistencia definitiva de la reserva.
+
+El objetivo es que la base de datos solo se modifique cuando el pago fue exitoso.
+
+---
+
+## 2. Selector de clientes existentes
+
+Actualmente siempre se crea un cliente nuevo.
+
+Agregar una opción para seleccionar un cliente existente.
+
+Requisitos:
+
+* Obtener todos los clientes desde la base de datos.
+* Mostrar un `JComboBox` (dropdown) con los clientes.
+* Permitir:
+  * seleccionar un cliente existente; o
+  * crear uno nuevo si es necesario.
+* Al continuar el flujo, utilizar el cliente seleccionado.
+
+Intentar reutilizar la pantalla actual sin modificar innecesariamente el flujo de navegación.
+El dropdown debería estar en IPantallaMenu
+
+---
+
+## 3. Reporte de recaudación por sala
+
+Agregar una nueva pantalla o sección de administración con un listado de salas.
+
+Para cada sala mostrar al menos:
+
+* nombre o identificador;
+* cantidad de funciones;
+* cantidad de entradas vendidas;
+* recaudación total.
+
+Implementar las consultas necesarias en los DAO.
+
+Si es posible, ordenar la información por mayor recaudación.
+
+---
+
+## 4. Vista de administrador con mapa de butacas
+
+Crear una vista exclusiva para administrador.
+
+Debe permitir:
+
+* seleccionar una función;
+* visualizar el mapa completo de butacas;
+* diferenciar visualmente:
+
+  * butacas libres;
+  * butacas reservadas.
+
+La vista será únicamente de consulta (no debe permitir reservar ni modificar estados).
+
+---
+
+## 5. ABM de Funciones
+
+Implementar un ABM completo para las funciones.
+
+Debe permitir:
+
+* listar funciones;
+* crear función;
+* modificar función;
+* eliminar función (baja lógica).
+
+
+Validaciones:
+
+* evitar funciones duplicadas para la misma sala, fecha y horario;
+* agregar en sql las constraint necesarias
+* impedir eliminar funciones que ya posean reservas (mostrar mensaje adecuado).
+* cuando una función no está disponible, no debería aparecer para realizar la reserva
+
+
+## 6. Selección de cantidad de entradas
+
+Modificar el flujo de compra para que, antes de seleccionar la butaca, el usuario indique la cantidad de entradas que desea comprar.
+
+Requisitos:
+
+* Agregar un paso o control (por ejemplo, un `JSpinner` o `JComboBox`) para seleccionar la cantidad de entradas.
+* Permitir seleccionar desde 1 hasta la cantidad de butacas disponibles para la función.
+* Una vez definida la cantidad:
+  * en la pantalla de butacas solo debe ser posible seleccionar exactamente esa cantidad;
+  * al intentar seleccionar una butaca adicional, impedir la acción y mostrar un mensaje indicando que ya se alcanzó el máximo permitido;
+  * si el usuario deselecciona una butaca, debe poder seleccionar otra.
+* Al confirmar la compra, validar nuevamente que la cantidad de butacas seleccionadas coincida con la cantidad de entradas solicitadas.
+* Mantener esta información durante todo el flujo de compra hasta la confirmación o cancelación de la operación.
+* Si el usuario cancela la compra, la cantidad de entradas seleccionada también debe descartarse.
+
+
+
+
+
+
+Reutilizar los DAO existentes cuando sea posible.
+
+
+
