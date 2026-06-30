@@ -163,7 +163,7 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         for (Component comp : panelButacas.getComponents()) {
             if (comp instanceof JToggleButton) {
                 JToggleButton btn = (JToggleButton) comp;
-                if (btn.isSelected()) {
+                if (btn.isSelected() && btn.isEnabled()) {
                     seleccionadas.add((Integer) btn.getClientProperty("idButaca"));
                 }
             }
