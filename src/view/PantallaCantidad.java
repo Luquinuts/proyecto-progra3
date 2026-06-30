@@ -18,6 +18,7 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
         lblTitulo = new javax.swing.JLabel();
         lblInfo = new javax.swing.JLabel();
         spinnerCantidad = new javax.swing.JSpinner();
+        lblTotal = new javax.swing.JLabel();
         btnContinuar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
@@ -32,6 +33,11 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
 
         spinnerCantidad.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
         spinnerCantidad.setPreferredSize(new java.awt.Dimension(80, 40));
+        spinnerCantidad.addChangeListener(this::spinnerCantidadStateChanged);
+
+        lblTotal.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotal.setForeground(new java.awt.Color(0, 100, 0));
 
         btnContinuar.setText("Continuar");
         btnContinuar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
@@ -51,6 +57,7 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
                 .addGap(310)
                 .addComponent(spinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(310))
+            .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(250)
                 .addComponent(btnContinuar)
@@ -66,12 +73,26 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
             .addComponent(lblInfo)
             .addGap(20)
             .addComponent(spinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(60)
+            .addGap(10)
+            .addComponent(lblTotal)
+            .addGap(50)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnContinuar)
                 .addComponent(btnVolver))
             .addGap(80)
         );
+    }
+
+    private void actualizarTotal() {
+        Funcion funcion = ventanaPrincipal.getFuncionActual();
+        if (funcion == null) return;
+        int cantidad = (Integer) spinnerCantidad.getValue();
+        double total = funcion.getPrecio() * cantidad;
+        lblTotal.setText(String.format("Total: $%,.2f", total));
+    }
+
+    private void spinnerCantidadStateChanged(javax.swing.event.ChangeEvent evt) {
+        actualizarTotal();
     }
 
     @Override
@@ -98,7 +119,12 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
             valorActual = 1;
         }
 
+        // Desconectar listener temporalmente para no disparar actualizarTotal al setear el modelo
+        spinnerCantidad.removeChangeListener(this::spinnerCantidadStateChanged);
         spinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(valorActual, 1, Math.max(disponibles, 1), 1));
+        spinnerCantidad.addChangeListener(this::spinnerCantidadStateChanged);
+
+        actualizarTotal();
     }
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,6 +141,7 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
 
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblInfo;
+    private javax.swing.JLabel lblTotal;
     private javax.swing.JSpinner spinnerCantidad;
     private javax.swing.JButton btnContinuar;
     private javax.swing.JButton btnVolver;
