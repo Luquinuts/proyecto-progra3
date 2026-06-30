@@ -11,17 +11,39 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        lblCliente = new javax.swing.JLabel();
+        cmbClientes = new javax.swing.JComboBox<>();
         btnCartelera = new javax.swing.JButton();
         btnRegistrarse = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(240, 240, 240));
 
+        lblCliente.setText("Seleccionar Cliente:");
+        lblCliente.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+
+        cmbClientes.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        cmbClientes.addActionListener(this::cmbClientesActionPerformed);
+        cmbClientes.setRenderer(new javax.swing.DefaultListCellRenderer() {
+            @Override
+            public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value,
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof model.Cliente) {
+                    model.Cliente c = (model.Cliente) value;
+                    setText(c.getNombre() + " " + c.getApellido() + " (" + c.getEmail() + ")");
+                } else {
+                    setText("-- Seleccione un cliente --");
+                }
+                return this;
+            }
+        });
+
         btnCartelera.setText("Cartelera");
         btnCartelera.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnCartelera.addActionListener(this::btnCarteleraActionPerformed);
 
-        btnRegistrarse.setText("Registrarse");
+        btnRegistrarse.setText("Nuevo Cliente");
         btnRegistrarse.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnRegistrarse.addActionListener(this::btnRegistrarseActionPerformed);
 
@@ -36,6 +58,8 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
             .addGroup(layout.createSequentialGroup()
                 .addGap(250, 250, 250)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lblCliente)
+                    .addComponent(cmbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCartelera, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -43,20 +67,30 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
         );
         layout.setVerticalGroup(
             layout.createSequentialGroup()
-            .addGap(120)
+            .addGap(80)
+            .addComponent(lblCliente)
+            .addGap(5)
+            .addComponent(cmbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(30)
             .addComponent(btnCartelera, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(30)
+            .addGap(20)
             .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(30)
+            .addGap(20)
             .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(120)
+            .addGap(100)
         );
+    }
+
+    private void cmbClientesActionPerformed(java.awt.event.ActionEvent evt) {
+        model.Cliente selected = (model.Cliente) cmbClientes.getSelectedItem();
+        ventanaPrincipal.setClienteActual(selected);
     }
 
     private void btnCarteleraActionPerformed(java.awt.event.ActionEvent evt) {
         if (ventanaPrincipal.getClienteActual() == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe registrarse primero");
-            ventanaPrincipal.mostrarPantalla("cliente");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar o registrar un cliente primero.",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {
             ventanaPrincipal.mostrarPantalla("peliculas");
         }
@@ -72,9 +106,26 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
 
     @Override
     public void onShow() {
-        // nothing special to reload on the menu
+        // Recargar clientes desde la BD
+        model.Cliente selected = ventanaPrincipal.getClienteActual();
+        cmbClientes.removeAllItems();
+        cmbClientes.addItem(null);
+
+        for (model.Cliente c : database.ClienteDAO.obtenerTodos()) {
+            cmbClientes.addItem(c);
+            if (selected != null && c.getIdCliente() == selected.getIdCliente()) {
+                cmbClientes.setSelectedItem(c);
+            }
+        }
+
+        // Si no hay cliente seleccionado, mostrar placeholder
+        if (selected == null) {
+            cmbClientes.setSelectedIndex(0);
+        }
     }
 
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JComboBox<model.Cliente> cmbClientes;
     private javax.swing.JButton btnCartelera;
     private javax.swing.JButton btnRegistrarse;
     private javax.swing.JButton btnSalir;
