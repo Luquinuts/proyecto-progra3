@@ -33,7 +33,7 @@ public class PantallaFunciones extends javax.swing.JPanel implements IPantallaBa
 
         setBackground(new java.awt.Color(240, 240, 240));
 
-        lblTitulo.setText("ABM de Funciones");
+        lblTitulo.setText("Funciones");
         lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 

@@ -31,7 +31,7 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
         btnMapaButacas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnMapaButacas.addActionListener(this::btnMapaButacasActionPerformed);
 
-        btnFunciones.setText("ABM Funciones");
+        btnFunciones.setText("Funciones");
         btnFunciones.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
         btnFunciones.addActionListener(this::btnFuncionesActionPerformed);
 
