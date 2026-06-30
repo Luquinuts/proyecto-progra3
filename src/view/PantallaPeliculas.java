@@ -170,7 +170,7 @@ public class PantallaPeliculas extends javax.swing.JPanel implements IPantallaBa
         }
 
         ventanaPrincipal.setFuncionActual(funcion);
-        ventanaPrincipal.mostrarPantalla("butacas");
+        ventanaPrincipal.mostrarPantalla("cantidad");
     }
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {

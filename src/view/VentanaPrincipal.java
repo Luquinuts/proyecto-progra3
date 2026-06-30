@@ -24,6 +24,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         contenedor.add(new PantallaAdminButacas(this), "admin-butacas");
         contenedor.add(new PantallaFunciones(this), "funciones");
         contenedor.add(new PantallaFormFuncion(this), "form-funcion");
+        contenedor.add(new PantallaCantidad(this), "cantidad");
         
         mostrarPantalla("menu");
     }
@@ -72,6 +73,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private model.Funcion funcionActual = null;
     private java.util.List<Integer> butacasSeleccionadas = null;
     private model.Funcion funcionEditar = null;
+    private int cantidadEntradas = 0;
 
     public model.Cliente getClienteActual() { return clienteActual; }
     public void setClienteActual(model.Cliente c) { this.clienteActual = c; }
@@ -81,6 +83,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public void setButacasSeleccionadas(java.util.List<Integer> ids) { this.butacasSeleccionadas = ids; }
     public model.Funcion getFuncionEditar() { return funcionEditar; }
     public void setFuncionEditar(model.Funcion f) { this.funcionEditar = f; }
+    public int getCantidadEntradas() { return cantidadEntradas; }
+    public void setCantidadEntradas(int n) { this.cantidadEntradas = n; }
 
     // Variables declaration
     private javax.swing.JPanel contenedor;

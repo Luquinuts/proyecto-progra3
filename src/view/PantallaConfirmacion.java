@@ -19,6 +19,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
         lblFuncion = new javax.swing.JLabel();
         lblSala = new javax.swing.JLabel();
         lblButacas = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
         lblPrecio = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -34,6 +35,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
         lblFuncion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         lblSala.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         lblButacas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        lblCantidad.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         lblPrecio.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
 
         btnConfirmar.setText("Confirmar Compra");
@@ -57,6 +59,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
                     .addComponent(lblFuncion)
                     .addComponent(lblSala)
                     .addComponent(lblButacas)
+                    .addComponent(lblCantidad)
                     .addComponent(lblPrecio))
                 .addGap(150))
             .addGroup(layout.createSequentialGroup()
@@ -80,6 +83,8 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
             .addComponent(lblSala)
             .addGap(10)
             .addComponent(lblButacas)
+            .addGap(10)
+            .addComponent(lblCantidad)
             .addGap(10)
             .addComponent(lblPrecio)
             .addGap(40)
@@ -143,12 +148,31 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
         }
         lblButacas.setText(butacasText.toString());
 
+        // Cantidad de entradas
+        int cantidad = ventanaPrincipal.getCantidadEntradas();
+        lblCantidad.setText("Cantidad de entradas: " + cantidad);
+
         // Precio total
-        double total = funcion.getPrecio() * idsButacas.size();
+        double total = funcion.getPrecio() * cantidad;
         lblPrecio.setText("Total: $" + String.format("%.2f", total));
     }
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
+        // Validar que la cantidad de entradas coincida con las butacas seleccionadas
+        int esperadas = ventanaPrincipal.getCantidadEntradas();
+        int seleccionadas = ventanaPrincipal.getButacasSeleccionadas() != null
+                ? ventanaPrincipal.getButacasSeleccionadas().size() : 0;
+
+        if (seleccionadas != esperadas) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error de validacion: la cantidad de entradas (" + esperadas
+                    + ") no coincide con las butacas seleccionadas (" + seleccionadas + ").\n"
+                    + "Por favor, vuelva a seleccionar las butacas.",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            ventanaPrincipal.mostrarPantalla("butacas");
+            return;
+        }
+
         // Persistir la reserva en un thread sincronizado
         ReservaButacaThread thread = new ReservaButacaThread(
             ventanaPrincipal.getClienteActual(),
@@ -174,6 +198,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
             ventanaPrincipal.setClienteActual(null);
             ventanaPrincipal.setFuncionActual(null);
             ventanaPrincipal.setButacasSeleccionadas(null);
+            ventanaPrincipal.setCantidadEntradas(0);
             ventanaPrincipal.mostrarPantalla("menu");
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -182,7 +207,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
     }
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
-        // Descartar seleccion temporal (en memoria) y volver a butacas
+        // Descartar seleccion de butacas pero mantener la cantidad elegida
         ventanaPrincipal.setButacasSeleccionadas(null);
         ventanaPrincipal.mostrarPantalla("butacas");
     }
@@ -193,6 +218,7 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
     private javax.swing.JLabel lblFuncion;
     private javax.swing.JLabel lblSala;
     private javax.swing.JLabel lblButacas;
+    private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnCancelar;

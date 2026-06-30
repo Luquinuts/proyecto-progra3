@@ -10,6 +10,7 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
 
     private VentanaPrincipal ventanaPrincipal;
     private java.util.Map<Integer, javax.swing.JToggleButton> butacaMap;
+    private int maxSeleccion;
 
     public PantallaButacas(VentanaPrincipal vp) {
         this.ventanaPrincipal = vp;
@@ -20,6 +21,7 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
     @SuppressWarnings("unchecked")
     private void initComponents() {
         lblInfo = new javax.swing.JLabel();
+        lblContador = new javax.swing.JLabel();
         scrollButacas = new javax.swing.JScrollPane();
         panelButacas = new javax.swing.JPanel();
         btnReservar = new javax.swing.JButton();
@@ -30,6 +32,9 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         lblInfo.setText("Seleccione sus butacas");
         lblInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
         lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lblContador.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        lblContador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         scrollButacas.setViewportView(panelButacas);
 
@@ -46,6 +51,7 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblContador, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(50)
                 .addComponent(scrollButacas, 600, 600, 600)
@@ -59,16 +65,36 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         );
         layout.setVerticalGroup(
             layout.createSequentialGroup()
-            .addGap(20)
+            .addGap(15)
             .addComponent(lblInfo)
-            .addGap(10)
+            .addGap(5)
+            .addComponent(lblContador)
+            .addGap(5)
             .addComponent(scrollButacas, 300, 300, 300)
-            .addGap(20)
+            .addGap(15)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnReservar)
                 .addComponent(btnVolver))
-            .addGap(20)
+            .addGap(15)
         );
+    }
+
+    private int contarSeleccionadas() {
+        int count = 0;
+        for (Component comp : panelButacas.getComponents()) {
+            if (comp instanceof JToggleButton) {
+                JToggleButton btn = (JToggleButton) comp;
+                if (btn.isSelected() && btn.isEnabled()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private void actualizarContador() {
+        int seleccionadas = contarSeleccionadas();
+        lblContador.setText("Seleccionadas: " + seleccionadas + " de " + maxSeleccion);
     }
 
     private void cargarButacas() {
@@ -78,19 +104,19 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         model.Funcion funcion = ventanaPrincipal.getFuncionActual();
         if (funcion == null) return;
 
+        maxSeleccion = ventanaPrincipal.getCantidadEntradas();
+
         lblInfo.setText("Butacas para la funcion del " + funcion.getFecha()
                 + " - Sala: " + funcion.getIdSala());
 
-        // Obtener todas las butacas de la sala y las ya ocupadas
-        java.util.List<model.Butaca> todas = database.ButacaDAO.obtenerPorSala(funcion.getIdSala());
-        java.util.List<Integer> idsOcupadas = database.ReservaDAO.obtenerDetallePorFuncion(funcion.getIdFuncion());
+        List<model.Butaca> todas = database.ButacaDAO.obtenerPorSala(funcion.getIdSala());
+        List<Integer> idsOcupadas = database.ReservaDAO.obtenerDetallePorFuncion(funcion.getIdFuncion());
 
         if (todas.isEmpty()) {
             lblInfo.setText("No hay butacas disponibles para esta funcion");
             return;
         }
 
-        // Determinar filas distintas y maximo numero
         java.util.Set<String> filasSet = new java.util.LinkedHashSet<>();
         int maxNumero = 0;
         for (model.Butaca b : todas) {
@@ -99,9 +125,8 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
                 maxNumero = b.getNumero();
             }
         }
-        java.util.List<String> filas = new java.util.ArrayList<>(filasSet);
+        List<String> filas = new java.util.ArrayList<>(filasSet);
 
-        // Crear grid con filas y columnas
         int filasCount = filas.size();
         int colsCount = maxNumero;
         panelButacas.setLayout(new java.awt.GridLayout(filasCount, colsCount, 5, 5));
@@ -133,32 +158,40 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
                     btn.setOpaque(true);
                     btn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
 
-                    final int idButacaFinal = butacaEncontrada.getIdButaca();
-                    btn.addItemListener(e -> {
+                    // ActionListener: solo se dispara por clicks del usuario (no por setSelected)
+                    btn.addActionListener(e -> {
                         javax.swing.JToggleButton source = (javax.swing.JToggleButton) e.getSource();
                         if (source.isSelected()) {
+                            if (contarSeleccionadas() > maxSeleccion) {
+                                source.setSelected(false);
+                                javax.swing.JOptionPane.showMessageDialog(PantallaButacas.this,
+                                        "Solo puede seleccionar hasta " + maxSeleccion + " butacas.\n"
+                                        + "Deseleccione una butaca primero.",
+                                        "Limite alcanzado", javax.swing.JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
                             source.setBackground(java.awt.Color.ORANGE);
                         } else {
                             source.setBackground(java.awt.Color.GREEN);
                         }
+                        actualizarContador();
                     });
 
                     btn.putClientProperty("idButaca", butacaEncontrada.getIdButaca());
                     butacaMap.put(butacaEncontrada.getIdButaca(), btn);
                     panelButacas.add(btn);
                 } else {
-                    // Celda vacia para mantener la cuadricula
                     panelButacas.add(new javax.swing.JLabel(""));
                 }
             }
         }
 
+        actualizarContador();
         panelButacas.revalidate();
         panelButacas.repaint();
     }
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {
-        // Get selected butacas from toggle buttons
         List<Integer> seleccionadas = new ArrayList<>();
         for (Component comp : panelButacas.getComponents()) {
             if (comp instanceof JToggleButton) {
@@ -176,7 +209,15 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
             return;
         }
 
-        // Validar disponibilidad (sin persistir)
+        // Validar que la cantidad coincida
+        if (seleccionadas.size() != maxSeleccion) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar exactamente " + maxSeleccion + " butacas.\n"
+                    + "Ha seleccionado " + seleccionadas.size() + ".",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         boolean disponibles = ReservaDAO.validarDisponibilidad(
             ventanaPrincipal.getFuncionActual(), seleccionadas);
 
@@ -188,13 +229,12 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
             return;
         }
 
-        // Almacenar seleccion temporal en memoria y pasar a confirmacion
         ventanaPrincipal.setButacasSeleccionadas(seleccionadas);
         ventanaPrincipal.mostrarPantalla("confirmacion");
     }
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {
-        ventanaPrincipal.mostrarPantalla("peliculas");
+        ventanaPrincipal.mostrarPantalla("cantidad");
     }
 
     @Override
@@ -203,6 +243,7 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
     }
 
     private javax.swing.JLabel lblInfo;
+    private javax.swing.JLabel lblContador;
     private javax.swing.JScrollPane scrollButacas;
     private javax.swing.JPanel panelButacas;
     private javax.swing.JButton btnReservar;
