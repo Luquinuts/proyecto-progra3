@@ -17,26 +17,25 @@ public class PantallaAdmin extends javax.swing.JPanel implements IPantallaBase {
         btnFunciones = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Administracion");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
         btnReporte.setText("Reporte por Sala");
-        btnReporte.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnReporte);
         btnReporte.addActionListener(this::btnReporteActionPerformed);
 
         btnMapaButacas.setText("Mapa de Butacas");
-        btnMapaButacas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnMapaButacas);
         btnMapaButacas.addActionListener(this::btnMapaButacasActionPerformed);
 
         btnFunciones.setText("Funciones");
-        btnFunciones.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnFunciones);
         btnFunciones.addActionListener(this::btnFuncionesActionPerformed);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

@@ -19,20 +19,17 @@ public class PantallaReporteSala extends javax.swing.JPanel implements IPantalla
         tablaReporte = new javax.swing.JTable();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Reporte de Recaudacion por Sala");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
-        tablaReporte.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
-        tablaReporte.setRowHeight(28);
-        tablaReporte.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        Theme.styleTable(tablaReporte);
         tablaReporte.setEnabled(false); // read-only
         scrollTabla.setViewportView(tablaReporte);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

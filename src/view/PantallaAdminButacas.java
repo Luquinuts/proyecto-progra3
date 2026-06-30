@@ -33,22 +33,22 @@ public class PantallaAdminButacas extends javax.swing.JPanel implements IPantall
         lblInfo = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Mapa de Butacas - Administracion");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
-        cmbFunciones.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
+        cmbFunciones.setFont(Theme.FONT_BODY);
         cmbFunciones.addActionListener(this::cmbFuncionesActionPerformed);
 
         scrollButacas.setViewportView(panelButacas);
 
-        lblInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
+        lblInfo.setFont(Theme.FONT_BODY);
+        lblInfo.setForeground(Theme.TEXT_SECONDARY);
         lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -170,17 +170,18 @@ public class PantallaAdminButacas extends javax.swing.JPanel implements IPantall
                     javax.swing.JLabel lbl = new javax.swing.JLabel(
                             butacaEncontrada.getFila() + butacaEncontrada.getNumero(),
                             javax.swing.SwingConstants.CENTER);
-                    lbl.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
+                    lbl.setFont(Theme.FONT_SMALL);
                     lbl.setOpaque(true);
-                    lbl.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
+                    lbl.setBorder(javax.swing.BorderFactory.createLineBorder(Theme.BORDER));
 
                     boolean ocupada = idsOcupadas.contains(butacaEncontrada.getIdButaca());
                     if (ocupada) {
-                        lbl.setBackground(java.awt.Color.RED);
-                        lbl.setForeground(java.awt.Color.WHITE);
+                        lbl.setBackground(Theme.BUTACA_TAKEN);
+                        lbl.setForeground(Theme.TEXT_PRIMARY);
                         ocupadas++;
                     } else {
-                        lbl.setBackground(java.awt.Color.GREEN);
+                        lbl.setBackground(Theme.BUTACA_FREE);
+                        lbl.setForeground(Theme.TEXT_PRIMARY);
                         libres++;
                     }
 

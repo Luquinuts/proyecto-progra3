@@ -27,23 +27,25 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         btnReservar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblInfo.setText("Seleccione sus butacas");
-        lblInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
+        lblInfo.setFont(Theme.FONT_SUBTITLE);
+        lblInfo.setForeground(Theme.TEXT_PRIMARY);
         lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        lblContador.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        lblContador.setFont(Theme.FONT_BODY);
+        lblContador.setForeground(Theme.TEXT_SECONDARY);
         lblContador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         scrollButacas.setViewportView(panelButacas);
 
         btnReservar.setText("Reservar");
-        btnReservar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonConfirm(btnReservar);
         btnReservar.addActionListener(this::btnReservarActionPerformed);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -149,14 +151,14 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
                     if (ocupada) {
                         btn.setEnabled(false);
                         btn.setSelected(true);
-                        btn.setBackground(java.awt.Color.RED);
+                        btn.setBackground(Theme.BUTACA_TAKEN);
                     } else {
                         btn.setEnabled(true);
                         btn.setSelected(false);
-                        btn.setBackground(java.awt.Color.GREEN);
+                        btn.setBackground(Theme.BUTACA_FREE);
                     }
                     btn.setOpaque(true);
-                    btn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
+                    btn.setFont(Theme.FONT_SMALL);
 
                     // ActionListener: solo se dispara por clicks del usuario (no por setSelected)
                     btn.addActionListener(e -> {
@@ -170,9 +172,9 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
                                         "Limite alcanzado", javax.swing.JOptionPane.WARNING_MESSAGE);
                                 return;
                             }
-                            source.setBackground(java.awt.Color.ORANGE);
+                            source.setBackground(Theme.BUTACA_SELECTED);
                         } else {
-                            source.setBackground(java.awt.Color.GREEN);
+                            source.setBackground(Theme.BUTACA_FREE);
                         }
                         actualizarContador();
                     });

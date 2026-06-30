@@ -22,29 +22,29 @@ public class PantallaCantidad extends javax.swing.JPanel implements IPantallaBas
         btnContinuar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Cantidad de Entradas");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
-        lblInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        lblInfo.setFont(Theme.FONT_BODY);
+        lblInfo.setForeground(Theme.TEXT_SECONDARY);
         lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         spinnerCantidad.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        spinnerCantidad.setPreferredSize(new java.awt.Dimension(80, 40));
+        spinnerCantidad.setPreferredSize(new java.awt.Dimension(80, 45));
         spinnerCantidad.addChangeListener(this::spinnerCantidadStateChanged);
 
-        lblTotal.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
+        lblTotal.setFont(Theme.FONT_SUBTITLE);
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTotal.setForeground(new java.awt.Color(0, 100, 0));
+        lblTotal.setForeground(Theme.GREEN);
 
         btnContinuar.setText("Continuar");
-        btnContinuar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnContinuar);
         btnContinuar.addActionListener(this::btnContinuarActionPerformed);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
