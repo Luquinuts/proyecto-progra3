@@ -50,9 +50,40 @@ public class ReservaDAO {
     }
 
     /**
+     * Verifica disponibilidad sin modificar la BD.
+     * Retorna true si TODAS las butacas estan libres para esa funcion.
+     */
+    public static boolean validarDisponibilidad(Funcion funcion, List<Integer> idsButacas) {
+        Conexion db = new Conexion();
+        try {
+            if (db.getConnection() == null) {
+                System.out.println("Error: No hay conexion a la base de datos");
+                return false;
+            }
+            for (int idButaca : idsButacas) {
+                String sql = "SELECT COUNT(*) FROM detalle_reserva "
+                        + "WHERE id_funcion = " + funcion.getIdFuncion() + " "
+                        + "AND id_butaca = " + idButaca;
+                ResultSet rs = db.query(sql);
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.out.println("Butaca " + idButaca + " ya esta reservada");
+                    return false;
+                }
+            }
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error validando disponibilidad: " + ex);
+            return false;
+        } finally {
+            db.closeConnection();
+        }
+    }
+
+    /**
      * METODO PRINCIPAL: Verifica disponibilidad, inserta en reservas y
      * detalle_reserva dentro del mismo flujo. Retorna true si se reservaron
      * todas las butacas solicitadas, false si alguna ya estaba ocupada.
+     * Se ejecuta dentro del synchronized block del thread.
      */
     public static boolean reservarButacas(Cliente cliente, Funcion funcion, List<Integer> idsButacas) {
         Conexion db = new Conexion();

@@ -1,5 +1,7 @@
 package view;
 
+import thread.ReservaButacaThread;
+
 public class PantallaConfirmacion extends javax.swing.JPanel implements IPantallaBase {
 
     private VentanaPrincipal ventanaPrincipal;
@@ -147,26 +149,42 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
     }
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
-        javax.swing.JOptionPane.showMessageDialog(this,
+        // Persistir la reserva en un thread sincronizado
+        ReservaButacaThread thread = new ReservaButacaThread(
+            ventanaPrincipal.getClienteActual(),
+            ventanaPrincipal.getFuncionActual(),
+            ventanaPrincipal.getButacasSeleccionadas()
+        );
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Reserva interrumpida.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (thread.isExito()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
                 "Compra realizada con exito!\nGracias por su compra.",
                 "Compra Confirmada",
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-        // Clear session state
-        ventanaPrincipal.setClienteActual(null);
-        ventanaPrincipal.setFuncionActual(null);
-        ventanaPrincipal.setButacasSeleccionadas(null);
-
-        // Return to menu
-        ventanaPrincipal.mostrarPantalla("menu");
+            ventanaPrincipal.setClienteActual(null);
+            ventanaPrincipal.setFuncionActual(null);
+            ventanaPrincipal.setButacasSeleccionadas(null);
+            ventanaPrincipal.mostrarPantalla("menu");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                thread.getMensaje(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
-        // Limpiar sesion y volver al menu
-        ventanaPrincipal.setClienteActual(null);
-        ventanaPrincipal.setFuncionActual(null);
+        // Descartar seleccion temporal (en memoria) y volver a butacas
         ventanaPrincipal.setButacasSeleccionadas(null);
-        ventanaPrincipal.mostrarPantalla("menu");
+        ventanaPrincipal.mostrarPantalla("butacas");
     }
 
     private javax.swing.JLabel lblTitulo;

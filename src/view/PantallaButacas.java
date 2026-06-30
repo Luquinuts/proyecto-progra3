@@ -1,6 +1,6 @@
 package view;
 
-import thread.ReservaButacaThread;
+import database.ReservaDAO;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Component;
@@ -176,38 +176,21 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
             return;
         }
 
-        // Store selected butacas
-        ventanaPrincipal.setButacasSeleccionadas(seleccionadas);
+        // Validar disponibilidad (sin persistir)
+        boolean disponibles = ReservaDAO.validarDisponibilidad(
+            ventanaPrincipal.getFuncionActual(), seleccionadas);
 
-        // Launch thread with synchronization
-        ReservaButacaThread thread = new ReservaButacaThread(
-            ventanaPrincipal.getClienteActual(),
-            ventanaPrincipal.getFuncionActual(),
-            seleccionadas
-        );
-
-        // Show loading message
-        javax.swing.JOptionPane.showMessageDialog(this, "Procesando reserva...");
-
-        thread.start();
-        try {
-            thread.join(); // Wait for thread to complete
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        if (!disponibles) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Reserva interrumpida.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                "Alguna butaca ya fue reservada por otro usuario.",
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            cargarButacas();
             return;
         }
 
-        if (thread.isExito()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Reserva exitosa!");
-            ventanaPrincipal.mostrarPantalla("confirmacion");
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                thread.getMensaje(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            // Refresh butaca grid to show updated state
-            cargarButacas();
-        }
+        // Almacenar seleccion temporal en memoria y pasar a confirmacion
+        ventanaPrincipal.setButacasSeleccionadas(seleccionadas);
+        ventanaPrincipal.mostrarPantalla("confirmacion");
     }
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {
