@@ -24,26 +24,26 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Resumen de su compra");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
-        lblCliente.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        lblPelicula.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        lblFuncion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        lblSala.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        lblButacas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        lblCantidad.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        lblPrecio.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
+        Theme.styleBodyLabel(lblCliente);
+        Theme.styleBodyLabel(lblPelicula);
+        Theme.styleBodyLabel(lblFuncion);
+        Theme.styleBodyLabel(lblSala);
+        Theme.styleBodyLabel(lblButacas);
+        Theme.styleBodyLabel(lblCantidad);
+        lblPrecio.setFont(Theme.FONT_SUBTITLE);
+        lblPrecio.setForeground(Theme.GREEN);
 
         btnConfirmar.setText("Confirmar Compra");
-        btnConfirmar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonConfirm(btnConfirmar);
         btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
 
         btnCancelar.setText("Cancelar");
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnCancelar);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

@@ -36,40 +36,39 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Nueva Funcion");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
         lblPelicula.setText("Pelicula:");
-        lblPelicula.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblPelicula);
 
-        cmbPelicula.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        cmbPelicula.setFont(Theme.FONT_BODY);
 
         lblSala.setText("Sala:");
-        lblSala.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblSala);
 
-        cmbSala.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        cmbSala.setFont(Theme.FONT_BODY);
 
         lblFecha.setText("Fecha (YYYY-MM-DD):");
-        lblFecha.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtFecha.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblFecha);
+        txtFecha.setFont(Theme.FONT_BODY);
 
         lblHora.setText("Hora (HH:MM:SS):");
-        lblHora.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtHora.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblHora);
+        txtHora.setFont(Theme.FONT_BODY);
 
         lblPrecio.setText("Precio:");
-        lblPrecio.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtPrecio.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblPrecio);
+        txtPrecio.setFont(Theme.FONT_BODY);
 
         btnGuardar.setText("Guardar");
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnGuardar);
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnCancelar.setText("Cancelar");
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnCancelar);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

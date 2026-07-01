@@ -10,6 +10,8 @@ public class CineApp {
                     break;
                 }
             }
+            // Apply dark theme overrides after Nimbus is active
+            Theme.installNimbusOverrides();
         } catch (ReflectiveOperationException | 
                  javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName())

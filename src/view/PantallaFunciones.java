@@ -31,32 +31,29 @@ public class PantallaFunciones extends javax.swing.JPanel implements IPantallaBa
         btnEliminar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblTitulo.setText("Funciones");
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 16));
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Theme.styleTitle(lblTitulo);
 
-        tablaFunciones.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
-        tablaFunciones.setRowHeight(28);
-        tablaFunciones.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        Theme.styleTable(tablaFunciones);
         tablaFunciones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollTabla.setViewportView(tablaFunciones);
 
         btnNueva.setText("Nueva Funcion");
-        btnNueva.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnNueva);
         btnNueva.addActionListener(this::btnNuevaActionPerformed);
 
         btnEditar.setText("Editar");
-        btnEditar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnEditar);
         btnEditar.addActionListener(this::btnEditarActionPerformed);
 
         btnEliminar.setText("Eliminar");
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonDelete(btnEliminar);
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

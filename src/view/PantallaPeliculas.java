@@ -20,29 +20,30 @@ public class PantallaPeliculas extends javax.swing.JPanel implements IPantallaBa
         btnSeleccionar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblPelicula.setText("Pelicula:");
-        lblPelicula.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblPelicula);
         lblFuncion.setText("Funcion:");
-        lblFuncion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblFuncion);
         lblDetalle.setText("Detalle:");
-        lblDetalle.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblDetalle);
         lblDetalleValor.setText(" ");
-        lblDetalleValor.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblDetalleValor);
+        lblDetalleValor.setForeground(Theme.TEXT_PRIMARY);
 
-        comboPelicula.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        comboFuncion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        comboPelicula.setFont(Theme.FONT_BODY);
+        comboFuncion.setFont(Theme.FONT_BODY);
 
         comboPelicula.addActionListener(this::comboPeliculaActionPerformed);
         comboFuncion.addActionListener(this::comboFuncionActionPerformed);
 
         btnSeleccionar.setText("Seleccionar");
-        btnSeleccionar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnSeleccionar);
         btnSeleccionar.addActionListener(this::btnSeleccionarActionPerformed);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         // Renderer para mostrar solo el titulo de la pelicula
@@ -54,6 +55,11 @@ public class PantallaPeliculas extends javax.swing.JPanel implements IPantallaBa
                 if (value instanceof model.Pelicula) {
                     setText(((model.Pelicula) value).getTitulo());
                 }
+                if (!isSelected) {
+                    setBackground(Theme.BG_INPUT);
+                    setForeground(Theme.TEXT_PRIMARY);
+                }
+                setFont(Theme.FONT_BODY);
                 return this;
             }
         });
@@ -68,6 +74,11 @@ public class PantallaPeliculas extends javax.swing.JPanel implements IPantallaBa
                     model.Funcion f = (model.Funcion) value;
                     setText(f.getFecha() + " " + f.getHora() + " - $" + String.format("%.2f", f.getPrecio()));
                 }
+                if (!isSelected) {
+                    setBackground(Theme.BG_INPUT);
+                    setForeground(Theme.TEXT_PRIMARY);
+                }
+                setFont(Theme.FONT_BODY);
                 return this;
             }
         });

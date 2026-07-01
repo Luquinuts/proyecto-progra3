@@ -10,10 +10,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     public VentanaPrincipal() {
         initComponents();
+        setTitle("CineApp - Sistema de Gestion de Cine");
         
         // Las pantallas se agregan al contenedor DESPUES de initComponents
-        // NOTA: El usuario debe agregar estas lineas DENTRO de initComponents
-        // desde el disenador de Netbeans, arrastrando JPanels al contenedor
         contenedor.add(new PantallaMenu(this), "menu");
         contenedor.add(new PantallaCliente(this), "cliente");
         contenedor.add(new PantallaPeliculas(this), "peliculas");

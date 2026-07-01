@@ -22,30 +22,30 @@ public class PantallaCliente extends javax.swing.JPanel implements IPantallaBase
         btnGuardar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblNombre.setText("Nombre:");
-        lblNombre.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtNombre.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblNombre);
+        txtNombre.setFont(Theme.FONT_BODY);
 
         lblApellido.setText("Apellido:");
-        lblApellido.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtApellido.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblApellido);
+        txtApellido.setFont(Theme.FONT_BODY);
 
         lblEmail.setText("Email:");
-        lblEmail.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtEmail.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblEmail);
+        txtEmail.setFont(Theme.FONT_BODY);
 
         lblTelefono.setText("Telefono:");
-        lblTelefono.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        txtTelefono.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblTelefono);
+        txtTelefono.setFont(Theme.FONT_BODY);
 
         btnGuardar.setText("Guardar");
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnGuardar);
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnVolver.setText("Volver");
-        btnVolver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnVolver);
         btnVolver.addActionListener(this::btnVolverActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

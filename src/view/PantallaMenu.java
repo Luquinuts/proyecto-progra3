@@ -18,12 +18,12 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
         btnAdmin = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
+        Theme.stylePanel(this);
 
         lblCliente.setText("Seleccionar Cliente:");
-        lblCliente.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        Theme.styleBodyLabel(lblCliente);
 
-        cmbClientes.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        cmbClientes.setFont(Theme.FONT_BODY);
         cmbClientes.addActionListener(this::cmbClientesActionPerformed);
         cmbClientes.setRenderer(new javax.swing.DefaultListCellRenderer() {
             @Override
@@ -36,24 +36,29 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
                 } else {
                     setText("-- Seleccione un cliente --");
                 }
+                if (!isSelected) {
+                    setBackground(Theme.BG_INPUT);
+                    setForeground(Theme.TEXT_PRIMARY);
+                }
+                setFont(Theme.FONT_BODY);
                 return this;
             }
         });
 
         btnCartelera.setText("Cartelera");
-        btnCartelera.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonPrimary(btnCartelera);
         btnCartelera.addActionListener(this::btnCarteleraActionPerformed);
 
         btnRegistrarse.setText("Nuevo Cliente");
-        btnRegistrarse.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnRegistrarse);
         btnRegistrarse.addActionListener(this::btnRegistrarseActionPerformed);
 
         btnAdmin.setText("Administracion");
-        btnAdmin.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonSecondary(btnAdmin);
         btnAdmin.addActionListener(this::btnAdminActionPerformed);
 
         btnSalir.setText("Salir");
-        btnSalir.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        Theme.styleButtonDelete(btnSalir);
         btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
