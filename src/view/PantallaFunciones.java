@@ -135,9 +135,7 @@ public class PantallaFunciones extends javax.swing.JPanel implements IPantallaBa
     private int getFuncionSeleccionadaIndex() {
         int row = tablaFunciones.getSelectedRow();
         if (row < 0) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Seleccione una funcion de la tabla.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Seleccione una funcion de la tabla.");
             return -1;
         }
         return row;
@@ -164,28 +162,22 @@ public class PantallaFunciones extends javax.swing.JPanel implements IPantallaBa
 
         // Verificar si tiene reservas
         if (database.FuncionDAO.tieneReservas(f.getIdFuncion())) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "No se puede eliminar la funcion porque ya tiene reservas asociadas.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this,
+                    "No se puede eliminar la funcion porque ya tiene reservas asociadas.");
             return;
         }
 
         // Si ya esta inactiva
         if (!f.isActiva()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "La funcion ya se encuentra dada de baja.",
-                    "Informacion", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            Theme.showInfo(this, "La funcion ya se encuentra dada de baja.");
             return;
         }
 
-        int confirm = javax.swing.JOptionPane.showConfirmDialog(this,
-                "Confirma que desea dar de baja la funcion seleccionada?",
-                "Confirmar", javax.swing.JOptionPane.YES_NO_OPTION);
-        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+        boolean confirm = Theme.showConfirm(this,
+                "Confirma que desea dar de baja la funcion seleccionada?");
+        if (confirm) {
             database.FuncionDAO.desactivar(f.getIdFuncion());
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Funcion dada de baja correctamente.",
-                    "Informacion", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            Theme.showInfo(this, "Funcion dada de baja correctamente.");
             cargarFunciones();
         }
     }

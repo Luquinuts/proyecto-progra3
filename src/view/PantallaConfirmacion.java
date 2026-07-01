@@ -164,11 +164,10 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
                 ? ventanaPrincipal.getButacasSeleccionadas().size() : 0;
 
         if (seleccionadas != esperadas) {
-            javax.swing.JOptionPane.showMessageDialog(this,
+            Theme.showError(this,
                     "Error de validacion: la cantidad de entradas (" + esperadas
                     + ") no coincide con las butacas seleccionadas (" + seleccionadas + ").\n"
-                    + "Por favor, vuelva a seleccionar las butacas.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    + "Por favor, vuelva a seleccionar las butacas.");
             ventanaPrincipal.mostrarPantalla("butacas");
             return;
         }
@@ -185,24 +184,21 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
             thread.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Reserva interrumpida.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Reserva interrumpida.");
             return;
         }
 
         if (thread.isExito()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
+            Theme.showInfo(this,
                 "Compra realizada con exito!\nGracias por su compra.",
-                "Compra Confirmada",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                "Compra Confirmada");
             ventanaPrincipal.setClienteActual(null);
             ventanaPrincipal.setFuncionActual(null);
             ventanaPrincipal.setButacasSeleccionadas(null);
             ventanaPrincipal.setCantidadEntradas(0);
             ventanaPrincipal.mostrarPantalla("menu");
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                thread.getMensaje(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, thread.getMensaje());
         }
     }
 

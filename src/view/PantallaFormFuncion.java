@@ -198,13 +198,11 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         // Validar campos
         if (cmbPelicula.getSelectedIndex() < 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una pelicula.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Seleccione una pelicula.");
             return;
         }
         if (cmbSala.getSelectedIndex() < 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una sala.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Seleccione una sala.");
             return;
         }
 
@@ -213,9 +211,7 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
         String precioStr = txtPrecio.getText().trim();
 
         if (fecha.isEmpty() || hora.isEmpty() || precioStr.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Todos los campos son obligatorios.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Todos los campos son obligatorios.");
             return;
         }
 
@@ -223,9 +219,7 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
         try {
             precio = Double.parseDouble(precioStr);
         } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "El precio debe ser un numero valido.",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "El precio debe ser un numero valido.");
             return;
         }
 
@@ -237,9 +231,8 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
 
             // Verificar duplicado (excluyendo la funcion actual)
             if (database.FuncionDAO.existeFuncionActiva(sala.getIdSala(), fecha, hora, original.getIdFuncion())) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                        "Ya existe una funcion activa en la misma sala, fecha y horario.",
-                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                Theme.showError(this,
+                        "Ya existe una funcion activa en la misma sala, fecha y horario.");
                 return;
             }
 
@@ -250,13 +243,12 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
             original.setPrecio(precio);
             database.FuncionDAO.actualizar(original);
 
-            javax.swing.JOptionPane.showMessageDialog(this, "Funcion actualizada correctamente.");
+            Theme.showInfo(this, "Funcion actualizada correctamente.");
         } else {
             // Verificar duplicado
             if (database.FuncionDAO.existeFuncionActiva(sala.getIdSala(), fecha, hora, 0)) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                        "Ya existe una funcion activa en la misma sala, fecha y horario.",
-                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                Theme.showError(this,
+                        "Ya existe una funcion activa en la misma sala, fecha y horario.");
                 return;
             }
 
@@ -264,7 +256,7 @@ public class PantallaFormFuncion extends javax.swing.JPanel implements IPantalla
             Funcion nueva = new Funcion(nuevoId, pelicula.getIdPelicula(), sala.getIdSala(), fecha, hora, precio);
             database.FuncionDAO.insertar(nueva);
 
-            javax.swing.JOptionPane.showMessageDialog(this, "Funcion creada correctamente.");
+            Theme.showInfo(this, "Funcion creada correctamente.");
         }
 
         ventanaPrincipal.setFuncionEditar(null);

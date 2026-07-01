@@ -1,12 +1,15 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -230,5 +233,64 @@ public final class Theme {
         table.setRowHeight(TABLE_ROW_HEIGHT);
         table.setFont(FONT_TABLE);
         table.getTableHeader().setFont(FONT_TABLE_HEADER);
+    }
+
+    // ──────────────────────────────────────────────
+    // Dialog helpers — styled JOptionPane wrappers
+    // ──────────────────────────────────────────────
+
+    private static void styleDialogPane(JOptionPane pane, String title) {
+        pane.setBackground(BG_PRIMARY);
+        pane.setForeground(TEXT_PRIMARY);
+        JDialog dialog = pane.createDialog(null, title);
+        dialog.setBackground(BG_PRIMARY);
+        dialog.getContentPane().setBackground(BG_PRIMARY);
+        dialog.setVisible(true);
+    }
+
+    public static void showInfo(Component parent, String message) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+        styleDialogPane(pane, "Informacion");
+    }
+
+    public static void showInfo(Component parent, String message, String title) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+        styleDialogPane(pane, title);
+    }
+
+    public static void showError(Component parent, String message) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE);
+        styleDialogPane(pane, "Error");
+    }
+
+    public static void showError(Component parent, String message, String title) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE);
+        styleDialogPane(pane, title);
+    }
+
+    public static void showWarning(Component parent, String message) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.WARNING_MESSAGE);
+        styleDialogPane(pane, "Advertencia");
+    }
+
+    public static void showWarning(Component parent, String message, String title) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.WARNING_MESSAGE);
+        styleDialogPane(pane, title);
+    }
+
+    public static boolean showConfirm(Component parent, String message) {
+        return showConfirm(parent, message, "Confirmar");
+    }
+
+    public static boolean showConfirm(Component parent, String message, String title) {
+        JOptionPane pane = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+        pane.setBackground(BG_PRIMARY);
+        pane.setForeground(TEXT_PRIMARY);
+        JDialog dialog = pane.createDialog(parent, title);
+        dialog.setBackground(BG_PRIMARY);
+        dialog.getContentPane().setBackground(BG_PRIMARY);
+        dialog.setVisible(true);
+        Object selected = pane.getValue();
+        return selected != null && selected instanceof Integer && (Integer) selected == JOptionPane.YES_OPTION;
     }
 }

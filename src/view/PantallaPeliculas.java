@@ -165,18 +165,14 @@ public class PantallaPeliculas extends javax.swing.JPanel implements IPantallaBa
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {
         if (ventanaPrincipal.getClienteActual() == null) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Debe registrarse primero",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Debe registrarse primero");
             ventanaPrincipal.mostrarPantalla("cliente");
             return;
         }
 
         model.Funcion funcion = (model.Funcion) comboFuncion.getSelectedItem();
         if (funcion == null) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Seleccione una funcion",
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            Theme.showError(this, "Seleccione una funcion");
             return;
         }
 
