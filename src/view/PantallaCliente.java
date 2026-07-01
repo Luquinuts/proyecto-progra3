@@ -106,7 +106,9 @@ public class PantallaCliente extends javax.swing.JPanel implements IPantallaBase
         String telefono = txtTelefono.getText().trim();
 
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || telefono.isEmpty()) {
-            Theme.showError(this, "Todos los campos son obligatorios");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Todos los campos son obligatorios",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -128,7 +130,7 @@ public class PantallaCliente extends javax.swing.JPanel implements IPantallaBase
         database.ClienteDAO.insertar(cliente);
         ventanaPrincipal.setClienteActual(cliente);
 
-        Theme.showInfo(this, "Cliente registrado");
+        javax.swing.JOptionPane.showMessageDialog(this, "Cliente registrado");
         ventanaPrincipal.mostrarPantalla("menu");
     }
 

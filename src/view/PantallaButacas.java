@@ -166,10 +166,10 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
                         if (source.isSelected()) {
                             if (contarSeleccionadas() > maxSeleccion) {
                                 source.setSelected(false);
-                                Theme.showWarning(PantallaButacas.this,
+                                javax.swing.JOptionPane.showMessageDialog(PantallaButacas.this,
                                         "Solo puede seleccionar hasta " + maxSeleccion + " butacas.\n"
                                         + "Deseleccione una butaca primero.",
-                                        "Limite alcanzado");
+                                        "Limite alcanzado", javax.swing.JOptionPane.WARNING_MESSAGE);
                                 return;
                             }
                             source.setBackground(Theme.BUTACA_SELECTED);
@@ -205,15 +205,18 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
         }
 
         if (seleccionadas.isEmpty()) {
-            Theme.showError(this, "Seleccione al menos una butaca.");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Seleccione al menos una butaca.",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Validar que la cantidad coincida
         if (seleccionadas.size() != maxSeleccion) {
-            Theme.showError(this,
+            javax.swing.JOptionPane.showMessageDialog(this,
                     "Debe seleccionar exactamente " + maxSeleccion + " butacas.\n"
-                    + "Ha seleccionado " + seleccionadas.size() + ".");
+                    + "Ha seleccionado " + seleccionadas.size() + ".",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -221,8 +224,9 @@ public class PantallaButacas extends javax.swing.JPanel implements IPantallaBase
             ventanaPrincipal.getFuncionActual(), seleccionadas);
 
         if (!disponibles) {
-            Theme.showError(this,
-                "Alguna butaca ya fue reservada por otro usuario.");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Alguna butaca ya fue reservada por otro usuario.",
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             cargarButacas();
             return;
         }

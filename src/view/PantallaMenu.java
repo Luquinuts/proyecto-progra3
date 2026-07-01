@@ -101,8 +101,9 @@ public class PantallaMenu extends javax.swing.JPanel implements IPantallaBase {
 
     private void btnCarteleraActionPerformed(java.awt.event.ActionEvent evt) {
         if (ventanaPrincipal.getClienteActual() == null) {
-            Theme.showError(this,
-                    "Debe seleccionar o registrar un cliente primero.");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar o registrar un cliente primero.",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {
             ventanaPrincipal.mostrarPantalla("peliculas");
         }

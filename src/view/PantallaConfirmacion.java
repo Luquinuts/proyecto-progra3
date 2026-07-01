@@ -164,10 +164,11 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
                 ? ventanaPrincipal.getButacasSeleccionadas().size() : 0;
 
         if (seleccionadas != esperadas) {
-            Theme.showError(this,
+            javax.swing.JOptionPane.showMessageDialog(this,
                     "Error de validacion: la cantidad de entradas (" + esperadas
                     + ") no coincide con las butacas seleccionadas (" + seleccionadas + ").\n"
-                    + "Por favor, vuelva a seleccionar las butacas.");
+                    + "Por favor, vuelva a seleccionar las butacas.",
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             ventanaPrincipal.mostrarPantalla("butacas");
             return;
         }
@@ -184,21 +185,24 @@ public class PantallaConfirmacion extends javax.swing.JPanel implements IPantall
             thread.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            Theme.showError(this, "Reserva interrumpida.");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Reserva interrumpida.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (thread.isExito()) {
-            Theme.showInfo(this,
+            javax.swing.JOptionPane.showMessageDialog(this,
                 "Compra realizada con exito!\nGracias por su compra.",
-                "Compra Confirmada");
+                "Compra Confirmada",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
             ventanaPrincipal.setClienteActual(null);
             ventanaPrincipal.setFuncionActual(null);
             ventanaPrincipal.setButacasSeleccionadas(null);
             ventanaPrincipal.setCantidadEntradas(0);
             ventanaPrincipal.mostrarPantalla("menu");
         } else {
-            Theme.showError(this, thread.getMensaje());
+            javax.swing.JOptionPane.showMessageDialog(this,
+                thread.getMensaje(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 
